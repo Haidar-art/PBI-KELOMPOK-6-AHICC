@@ -1,53 +1,128 @@
-<?php
+﻿<?php
 session_start();
-//koneksi ke database
+//menyambungkan ke database
 $koneksi = new mysqli("localhost", "root", "", "incafe");
+
+if (!isset($_SESSION['admin'])) {
+    echo "<script>alert('Anda harus login!');</script>";
+    echo "<script>location='login.php';</script>";
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>InCafe</title>
-    <link href="admin/assets/css/bootstrap.css" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin InCafe</title>
+    <!-- BOOTSTRAP STYLES-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- MORRIS CHART STYLES-->
+    <link href="assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- CUSTOM STYLES-->
+    <link href="assets/css/custom.css" rel="stylesheet" />
+    <!-- GOOGLE FONTS-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
 
 <body>
-    <!--Navbar-->
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <ul class="nav navbar-nav">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="login.php">Login</a></li>
-                <li><a href="daftar.php">Daftar</a></li>
-            </ul>
-        </div>
-    </nav>
-
- <!--Konten-->
- <section class="konten">
-        <div class="container">
-            <h1>Informasi Cafe</h1>
-            <div class="row">
-                <?php $ambil = $koneksi->query("SELECT * FROM tambah_cafe"); ?>
-                <?php while ($cafe = $ambil->fetch_assoc()) { ?>
-                    <div class="col-md-3">
-                        <div class="thumbnail">
-                            <img src="fotocafe/<?php echo $cafe['foto']; ?>" alt="">
-                            <div class="caption">
-                                <center>
-                                    <h3><?php echo $cafe['nama_toko_cafe']; ?></h3>
-                                </center>
-                                <center>
-                                    <a href="detail.php?id=<?php echo $cafe['id_tambah_cafe']; ?>" class=" btn btn-primary" class="glyphicon glyphicon-eye-open">Detail</a>
-                                </center>
-                            </div>
-                        </div>
-                    </div>
-                <?php } ?>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Admin InCafe</a>
             </div>
+            <div style="color: white;
+padding: 15px 50px 5px 50px;
+float: right;
+font-size: 16px;">
+        </nav>
+        <!-- /. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li class="text-center">
+                        <img src="assets/img/Icon_incafe.jpeg" class="user-image img-responsive" />
+                    </li>
+
+
+                    <li><a href="index.php?halaman=home"><i class="fa fa-dashboard fa-3x"></i> Home </a></li>
+                    <li><a href="index.php?halaman=admin_toko"><i class="fa fa-dashboard fa-3x"></i> Admin Toko </a></li>
+                    <li><a href="index.php?halaman=simpan"><i class="fa fa-dashboard fa-3x"></i> Simpan </a></li>
+                    <li><a href="index.php?halaman=tambah_cafe"><i class="fa fa-dashboard fa-3x"></i> Data Cafe </a></li>
+                    <li><a href="index.php?halaman=user"><i class="fa fa-dashboard fa-3x"></i> Pengguna </a></li>
+                    <li><a href="index.php?halaman=logout"><i class="fa fa-dashboard fa-3x"></i> Logout </a></li>
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+                <?php
+                if (isset($_GET['halaman'])) {
+                    if ($_GET['halaman'] == "home"){
+                        include 'home.php';
+                    } elseif ($_GET['halaman'] == "admin_toko") {
+                        include 'admin_toko.php';
+                    } elseif ($_GET['halaman'] == "simpan") {
+                        include 'simpan.php';
+                    } elseif ($_GET['halaman'] == "tambah_cafe") {
+                        include 'tambah_cafe.php';
+                    } elseif ($_GET['halaman'] == "user") {
+                        include 'user.php';
+                    } elseif ($_GET['halaman'] == "tambah_toko") {
+                        include 'tambah_toko.php';
+                    } elseif ($_GET['halaman'] == "hapuscafe") {
+                        include 'hapuscafe.php';
+                    } elseif ($_GET['halaman'] == "ubahcafe") {
+                        include 'ubahcafe.php';
+                    } elseif ($_GET['halaman'] == "logout") {
+                        include 'logout.php';
+                    } elseif ($_GET['halaman'] == "hapusdatacafe"){
+                        include 'hapusdatacafe.php';
+                    } elseif ($_GET['halaman'] == "tambah_pemilik_cafe"){
+                        include 'tambah_pemilik_cafe.php';
+                    } elseif ($_GET['halaman'] == "pencarian"){
+                        include 'pencarian.php';
+                    } elseif ($_GET['halaman'] == "halaman2"){
+                        include 'halaman2.php';
+                    }
+                } else {
+                    include 'tambah_cafe.php';
+                } 
+                ?>
+            </div>
+            <!-- /. PAGE INNER  -->
         </div>
-    </section>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="assets/js/jquery-1.10.2.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="assets/js/jquery.metisMenu.js"></script>
+    <!-- MORRIS CHART SCRIPTS -->
+    <script src="assets/js/morris/raphael-2.1.0.min.js"></script>
+    <script src="assets/js/morris/morris.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="assets/js/custom.js"></script>
+
+
 </body>
 
-<head>
+</html>
