@@ -8,7 +8,7 @@ $keyword = $_GET["keyword"];
 
 $semuadata=array();
 $ambil = $koneksi->query("SELECT * FROM tambah_cafe WHERE nama_toko_cafe LIKE '%$keyword%' 
-    OR deskripsi_cafe LIKE '%%$keyword%'");
+    OR alamat_cafe LIKE '%%$keyword%'");
     while($pecah = $ambil->fetch_assoc())
     {
         $semuadata[]=$pecah;
@@ -44,7 +44,7 @@ $ambil = $koneksi->query("SELECT * FROM tambah_cafe WHERE nama_toko_cafe LIKE '%
                 <img src="fotocafe/<?php echo $value["foto"] ?>"alt="" class="img-responsive">
                 <div class="caption">
                     <h3><?php echo $value["nama_toko_cafe"] ?></h3>
-                    <a href="detail.php?id=<?php echo $value ["id_tambah_cafe"];?> "class="btn btn-default">Detail</a>
+                    <a href="detail.php?id=<?php echo $detail ["nama_toko_cafe"];?> "class="btn btn-default">Detail</a>
                 </div>
             </div>
         </div>
